@@ -1,5 +1,5 @@
 three data structures (linked lists, stacks, queues, dictionaries)
-add, update, delete, retreieve records (methods)
+add (DONE), update, delete, retrieve records (DONE) (methods)
 search (DONE)
 sort (DONE)
 recurssion
