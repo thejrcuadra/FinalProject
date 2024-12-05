@@ -26,190 +26,233 @@ class eBookReader:
         self._genres = []
         self._titlesBought = []
 
-    # add a book to available books (already populated data)
+    # add a book to available books (already populated data) (breze added try/except let me know if any of this doesn't work and feel free to change anything if needed)
     def addBook(self, book):
-        if book not in self._availableBooks:
-            self._availableBooks.append(book)
-            print(f"{book._title} has been added to system.")
-        else:
-            print(f"{book._title} is already in the system.")
+        try:
+            if book not in self._availableBooks:
+                self._availableBooks.append(book)
+                print(f"{book._title} has been added to system.")
+            else:
+                print(f"{book._title} is already in the system.")
+        except Exception as e:
+            print(f"An error occurred while adding the book: {e}")
 
-    # buying a book if not purchased, available, and exists
+    # buying a book if not purchased, available, and exists (breze added try/except let me know if any of this doesn't work)
     def buyBook(self, bookName):
-        for book in self._availableBooks:
-            if book._title == bookName:
-                self._purchasedBooks.append(book)
-                if book._title+'\n' not in self._titlesBought:
-                    self._titlesBought.append(book._title+'\n')
-                    print(f"{book._title} has been successfully purchased!")
-                book._purchases += 1
-                return
-        print(f"{bookName} is not available.")
-
-    # displaying the description of books inside purchased books list
-    def viewPurchasedBooks(self):
-        if not self._purchasedBooks:
-            print(f"There are no purchased books ... yet!")
-        else:
-            print(f"These are the purchased books: ")
-            for book in self._purchasedBooks:
-                print('\t'+book.description())
-
-    # marking a book as read if there book is already purchased and not yet read
-    def readPurchasedBook(self, bookName):
-        if not self._purchasedBooks:
-            print(f"There are no purchased books ... yet!")
-        else:
-            for book in self._purchasedBooks:
+        try:
+            for book in self._availableBooks:
                 if book._title == bookName:
-                    if book._read == False:
-                        book.markAsRead()
-                    else:
-                        print(f"{book._title} has already been read.")
+                    self._purchasedBooks.append(book)
+                    if book._title + '\n' not in self._titlesBought:
+                        self._titlesBought.append(book._title + '\n')
+                        print(f"{book._title} has been successfully purchased!")
+                    book._purchases += 1
                     return
-            print(f"{bookName} is not purchased.")
+            print(f"{bookName} is not available.")
+        except Exception as e:
+            print(f"An error occurred while buying the book: {e}")
 
-    # view which genres are available for purhcase in the system
+    
+    # displaying the description of books inside purchased books list (breze added try/except let me know if any of this doesn't work)
+    def viewPurchasedBooks(self):
+        try:
+            if not self._purchasedBooks:
+                print(f"There are no purchased books ... yet!")
+            else:
+                print(f"These are the purchased books: ")
+                for book in self._purchasedBooks:
+                    print('\t' + book.description())
+        except Exception as e:
+            print(f"An error occurred while viewing purchased books: {e}")
+
+    # marking a book as read if there book is already purchased and not yet read (breze added try/except let me know if any of this doesn't work)
+    def readPurchasedBook(self, bookName):
+        try:
+            if not self._purchasedBooks:
+                print(f"There are no purchased books ... yet!")
+            else:
+                for book in self._purchasedBooks:
+                    if book._title == bookName:
+                        if book._read == False:
+                            book.markAsRead()
+                        else:
+                            print(f"{book._title} has already been read.")
+                        return
+                print(f"{bookName} is not purchased.")
+        except Exception as e:
+            print(f"An error occurred while marking the book as read: {e}")
+
+    # view which genres are available for purhcase in the system (breze added try/except let me know if any of this doesn't work)
     def availableGenres(self):
-        if not self._availableBooks:
-            print(f"There are no books available ... yet!")
-        else:
-            print(f"These are the available genres: ")
-            for book in self._availableBooks:
-                if book._genre not in self._genres:
-                    self._genres.append(book._genre)
-            for genre in self._genres:
-                print('\t'+genre)
+        try:
+            if not self._availableBooks:
+                print(f"There are no books available ... yet!")
+            else:
+                print(f"These are the available genres: ")
+                for book in self._availableBooks:
+                    if book._genre not in self._genres:
+                        self._genres.append(book._genre)
+                for genre in self._genres:
+                    print('\t' + genre)
+        except Exception as e:
+            print(f"An error occurred while viewing available genres: {e}")
 
-    # filtering method by genre with user input
+    # filtering method by genre with user input (breze added try/except and the recursive function let me know if any of this doesn't work)
     def filterByGenres(self):
-        # display available genres
-        eBookReader.availableGenres(self)
-        # filtering and user input
-        print(f"Select a genre to filter. (Case sensitive)")
-        userGenre = input(" >")
-        if userGenre not in self._genres:
-            print(f"{userGenre} is not available.")
-        else:
-            print(f"These are the available books with genre \"{userGenre}\"")
-            for book in self._availableBooks:
-                if book._genre == userGenre:
-                    print('\t'+book.description())
+        try:
+            self.availableGenres()
+            # filtering and user input
+            print(f"Select a genre to filter. (Case sensitive)")
+            userGenre = input(" >")
+            if userGenre not in self._genres:
+                print(f"{userGenre} is not available.")
+            else:
+                print(f"These are the available books with genre \"{userGenre}\"")
+                self._filterByGenreRecursive(userGenre, 0)
+        except Exception as e:
+            print(f"An error occurred while filtering genres: {e}")
+    
+    def _filterByGenreRecursive(self, genre, index):
+        try:
+            if index < len(self._availableBooks):
+                book = self._availableBooks[index]
+                if book._genre == genre:
+                    print('\t' + book.description())
+                self._filterByGenreRecursive(genre, index + 1)
+        except Exception as e:
+            print(f"An error occurred during the recursive genre filter: {e}")
 
+    # track book purchases (breze added try/except let me know if any of this doesn't work)
     def trackBookPurchases(self):
-        if not self._purchasedBooks:
-            print("There are no books purchased ... yet!")
-        else:
-            # creating additional lists to track data
-            titles = []
-            purchases = []
-            for book in self._purchasedBooks:
-                if book._purchases not in purchases:
-                    purchases.append(book._purchases)
-                if book._title not in titles:
-                    titles.append(book._title)
-            print("These are the books that have been purchased: ")
-            for i in range(len(titles)):
-                print('\t'+f"{titles[i]} has been purchased {purchases[i]} time(s).")
+        try:
+            if not self._purchasedBooks:
+                print("There are no books purchased ... yet!")
+            else:
+                titles = []
+                purchases = []
+                for book in self._purchasedBooks:
+                    if book._purchases not in purchases:
+                        purchases.append(book._purchases)
+                    if book._title not in titles:
+                        titles.append(book._title)
+                print("These are the books that have been purchased: ")
+                for i in range(len(titles)):
+                    print('\t' + f"{titles[i]} has been purchased {purchases[i]} time(s).")
+        except Exception as e:
+            print(f"An error occurred while tracking book purchases: {e}")
 
+    # top 3 purchased books with recursion (breze added try/except and the recursive function let me know if any of this doesn't work)
     def topPurchasedBooks(self):
-        if not self._purchasedBooks:
-            print("There are no books purchased ... yet!")
-        else:
-            # creating additional list for data
-            purchaseCount = []
-            # track which title have already been used
-            usedTitles = []
-            for book in self._purchasedBooks:
-                if book._title not in usedTitles:
-                    usedTitles.append(book._title)
-                    purchaseCount.append(book._purchases)
-            topPurchases = list(purchaseCount)
-            topTitles = list(usedTitles)
-            for x in range(len(topPurchases)):
-                maxIndex = x
-                for y in range(x + 1, len(topPurchases)):
-                    if topPurchases[y] > topPurchases[maxIndex]:
+        try:
+            if not self._purchasedBooks:
+                print("There are no books purchased ... yet!")
+            else:
+                purchaseCount = []
+                usedTitles = []
+                for book in self._purchasedBooks:
+                    if book._title not in usedTitles:
+                        usedTitles.append(book._title)
+                        purchaseCount.append(book._purchases)
+                topPurchases = list(purchaseCount)
+                topTitles = list(usedTitles)
+                self._sortTopBooksRecursive(topPurchases, topTitles, 0)
+                print("The top 3 most purchased books are: ")
+                for i in range(3):
+                    print(f"\t{(i + 1)}. {topTitles[i]}: {topPurchases[i]} buys.")
+        except Exception as e:
+            print(f"An error occurred while getting top purchased books: {e}")
+
+    def _sortTopBooksRecursive(self, purchases, titles, index):
+        try:
+            if index < len(purchases) - 1:
+                maxIndex = index
+                for y in range(index + 1, len(purchases)):
+                    if purchases[y] > purchases[maxIndex]:
                         maxIndex = y
-                topPurchases[x], topPurchases[maxIndex] = topPurchases[maxIndex], topPurchases[x]
-                topTitles[x], topTitles[maxIndex] = topTitles[maxIndex], topTitles[x]
-            # display top 3 books by sales
-            print("The top 3 most purchased books are: ")
-            print('\t'+f"1. {topTitles[0]}: {topPurchases[0]} buys.")
-            print('\t'+f"2. {topTitles[1]}: {topPurchases[1]} buys.")
-            print('\t'+f"3. {topTitles[2]}: {topPurchases[2]} buys.")
+                purchases[index], purchases[maxIndex] = purchases[maxIndex], purchases[index]
+                titles[index], titles[maxIndex] = titles[maxIndex], titles[index]
+                self._sortTopBooksRecursive(purchases, titles, index + 1)
+        except Exception as e:
+            print(f"An error occurred during the recursive sorting: {e}")
 
+    # search for books by author with recursion (breze added try/except and the recursive function let me know if any of this doesn't work)
     def searchAuthor(self):
-        print("Enter the author name to search for available books: (Case sensitive)")
-        userAuthor = input(" >")
-        # creating additional lists to perform linear search
-        authors = []
-        books = []
-        # addition assignment variable in case the linear search does not find matching author names
-        counter = 0
-        if not self._availableBooks:
-            print("There are no books available ... yet!")
-        else:
-            for book in self._availableBooks:
-                authors.append(book._author)
-                books.append(book._title)
-            for i in range(len(authors)):
-                if authors[i] == userAuthor:
-                    print('\t'+f"{books[i]} by {authors[i]} is available!")
-                    counter += 1
-            if counter == 0:
-                print(f"{userAuthor} does not have books available right now.")
+        try:
+            print("Enter the author name to search for available books: (Case sensitive)")
+            userAuthor = input(" >")
+            self._searchAuthorRecursive(userAuthor, 0, 0)
+        except Exception as e:
+            print(f"An error occurred while searching for the author: {e}")
+    
+    def _searchAuthorRecursive(self, author, index, found):
+        try:
+            if index < len(self._availableBooks):
+                book = self._availableBooks[index]
+                if book._author == author:
+                    print('\t' + f"{book._title} by {book._author} is available!")
+                    found += 1
+                self._searchAuthorRecursive(author, index + 1, found)
+            elif found == 0:
+                print(f"{author} does not have books available right now.")
+        except Exception as e:
+            print(f"An error occurred during the recursive author search: {e}")
 
+    # search for books by title with recursion and binary search (breze added try/except and the recursive function let me know if any of this doesn't work)
     def searchByTitle(self):
-        if not self._availableBooks:
-            print("There are no available books ... yet!")
-        else:
+        try:
+            if not self._availableBooks:
+                print("There are no available books ... yet!")
+                return
+
             print("Enter the book's title to search for availability: (Case sensitive)")
             userTitle = input(" >")
-            # creating additional list to perform sorting and binary search
-            titles = []
-            for book in self._availableBooks:
-                titles.append(book._title)
-            # selection sorting 
-            for x in range(len(titles)):
-                maxIndex = x
-                for y in range(x + 1, len(titles)):
-                    if titles[y] < titles[maxIndex]:
-                        maxIndex = y
-                titles[x], titles[maxIndex] = titles[maxIndex], titles[x]
-            # proof of successfull sorting
-            # print(titles)
-            # binary search
-            min = 0
-            max = len(titles) - 1 
-            mid = 0
-            while min <= max:
+
+            # Sort titles before performing binary search
+            titles = [book._title for book in self._availableBooks]
+            titles.sort()
+
+            # Perform binary search recursively
+            self._recursiveBinarySearch(titles, userTitle, 0, len(titles) - 1)
+        except Exception as e:
+            print(f"An error occurred while searching for the title: {e}")
+
+    def _recursiveBinarySearch(self, userTitles, titles, min, max):
+        try:
+            if min <= max:
                 mid = (min + max) // 2
-                if titles[mid] == userTitle:
-                    print('\t'+f"{titles[mid]} has been found and is available.")
+                if userTitles[mid] == titles:
+                    print(f"{titles} has been found and is available.")
                     return
+                elif userTitles[mid] < titles:
+                    self._recursiveBinarySearch(userTitles, titles, mid + 1, max)
                 else:
-                    if titles[mid] < userTitle:
-                        min = mid + 1
-                    else:
-                        max = mid - 1
-            print('\t'+f"{userTitle} is not available.")
+                    self._recursiveBinarySearch(userTitles, titles, min, mid - 1)
+            else:
+                print(f"{titles} is not available.")
+        except Exception as e:
+            print(f"An error occurred during the binary search: {e}")
 
+    # saving book purchase data to a file (breze added try/except let me know if any of this doesn't work)
     def saveToFile(self):
-        file = open('Resources/purchasedBooks.txt', 'w')
-        for book in self._purchasedBooks:
-            if book._title not in self._titlesBought:
-                file.write(f"{book._title}"+'\n')
-                self._titlesBought.append(f"{book._title}")
-        file.close()
-        print("File has been successfully saved.")
+        try:
+            with open('Resources/purchasedBooks.txt', 'w') as file:
+                for book in self._purchasedBooks:
+                    if book._title not in self._titlesBought:
+                        file.write(f"{book._title}\n")
+                        self._titlesBought.append(book._title)
+            print("File has been successfully saved.")
+        except Exception as e:
+            print(f"An error occurred while saving to file: {e}")
 
+    # loading book purchase data from a file (breze added try/except let me know if any of this doesn't work)
     def loadFromFile(self):
-        file = open('Resources/purchasedBooks.txt', 'r')
-        loadedTitles = file.readlines()
-        self._titlesBought = loadedTitles
-        file.close()
-        print("File has been successfully loaded.")
+        try:
+            with open('Resources/purchasedBooks.txt', 'r') as file:
+                loadedTitles = file.readlines()
+                self._titlesBought = loadedTitles
+            print("File has been successfully loaded.")
+        except Exception as e:
+            print(f"An error occurred while loading from file: {e}")
 
     
 def main():
