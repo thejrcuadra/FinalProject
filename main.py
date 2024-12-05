@@ -26,7 +26,7 @@ class eBookReader:
         self._genres = []
         self._titlesBought = []
 
-    # add a book to available books (already populated data) (breze added try/except let me know if any of this doesn't work and feel free to change anything if needed)
+    # add a book to available books (already populated data) (breze added try/except let me know if any of this doesn't work and feel free to change anything if needed I kept the original version of this so if we need to go back to it we can)
     def addBook(self, book):
         try:
             if book not in self._availableBooks:
