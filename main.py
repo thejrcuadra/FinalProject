@@ -37,6 +37,32 @@ class eBookReader:
         except Exception as e:
             print(f"An error occurred while adding the book: {e}")
 
+
+    # Update book method (Amedeo)
+    def updateBook(self, title, newTitle=None, newAuthor=None, newPages=None, newGenre=None):
+        for book in self._availableBooks:
+            if book._title == title:
+                if newTitle:
+                    book._title = newTitle
+                if newAuthor:
+                    book._author = newAuthor
+                if newPages:
+                    book._pages = newPages
+                if newGenre:
+                    book._genre = newGenre
+                print(f"{title} has been updated.")
+                return
+        print(f"{title} not found in available books.")
+
+    # Delete book method (Amedeo)
+    def deleteBook(self, title):
+        for book in self._availableBooks:
+            if book._title == title:
+                self._availableBooks.remove(book)
+                print(f"{title} has been removed from the system.")
+                return
+        print(f"{title} not found in available books.")
+
     # buying a book if not purchased, available, and exists (breze added try/except let me know if any of this doesn't work)
     def buyBook(self, bookName):
         try:
@@ -289,6 +315,10 @@ def main():
     userOne.searchAuthor()
     userOne.searchByTitle()
     userOne.saveToFile()
+    # EX for Updating a book (Amedeo)
+    userOne.updateBook("Mansfield Park", newTitle="Northanger Abbey", newAuthor="Jane Austen")
+    # EX for Deleting a book (Amedeo)
+    userOne.deleteBook("The Jungle Book")
 
 if __name__ == "__main__":
     main()
