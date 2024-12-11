@@ -385,7 +385,67 @@ class Stack:
             return None
         else:
             return self.items[-1]
-  
+
+#Q
+#Added Node class
+class Node():
+    def __init__(self, value=None, next=None, previous=None):
+        #Define node's properties: value, next; default
+        self.value = value
+        self.next = next
+        self.previous = previous
+        return
+
+#Added LinkedList class
+class LinkedList:
+    def __init__(self):
+        self.head = None
+    
+    #Define add_to_front
+    def add_to_front(self, value):
+        new_node = Node(value)
+        new_node.next = self.head
+        self.head = new_node
+
+    #Define add
+    def add(self, value):
+        new = Node(value)
+        if self.head == None:
+            self.head = new
+            self.tail = self.head
+        else:
+            traverse = self.head
+            while traverse.next:
+                traverse = traverse.next
+            traverse.next = new
+            new.previous = traverse
+            self.tail = new      
+        return
+
+    #Define print_list
+    def print_list(self):
+        temp = self.head
+        while temp:
+            print(temp.data)
+            temp = temp.next
+
+#Added BookList class
+class BookList:
+    def __init__(self):
+        self.books = LinkedList()
+
+    #Define add_book
+    def add_book(self, title, author, pages, genre):
+        new_book = Book(title, author, pages, genre)
+        self.books.add(new_book)
+
+    #Define display_books
+    def display_books(self):
+        temp = self.books.head
+        while temp:
+            print(f"{temp.data.title}, {temp.data.author}, {temp.data.pages}, {temp.data.genre}")
+            temp = temp.next
+
 def main():
     # print() # differentiate betweeen two mains
 
@@ -482,6 +542,17 @@ def main():
     while not snowCrashBook.isEmpty():
         snowCrashBook.pop()
     userOne.readPurchasedBook("Snow Crash")
+
+    #Q
+    #Create LinkedList
+    bookList = BookList()
+
+    #Add books to list
+    bookList.head = Node("The Catcher in the Rye", "J. D. Salinger", "288", "Novel", (1))
+    second = Node("Fahrenheit 451", "Ray Bradbury", "176", "Fiction", (2))
+
+    #Link books
+    bookList.head.next = second
 
 if __name__ == "__main__":
     main()
