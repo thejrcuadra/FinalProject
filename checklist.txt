@@ -1,4 +1,4 @@
-three data structures (linked lists, stacks (Jose), queues (Done, Jose), dictionaries)
+three data structures (linked lists (Done, Q), stacks (Jose), queues (Done, Jose), dictionaries)
 add (DONE), update (Done, Amedeo), delete (Done, Amedeo), retrieve records (DONE)
 search (DONE)
 sort (DONE)
