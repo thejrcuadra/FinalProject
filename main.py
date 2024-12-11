@@ -37,6 +37,14 @@ class eBookReader:
         except Exception as e:
             print(f"An error occurred while adding the book: {e}")
 
+    # return pages in a book to load reading simulator (Jose)
+    def getPages(self, title):
+        try:
+            for book in self._availableBooks:
+                if book._title == title:
+                    return int(book._pages)
+        except Exception as e:
+            print(f"An error occured getting the number of pages of {title}: {e}")
 
     # Update book method (Amedeo)
     def updateBook(self, title, newTitle=None, newAuthor=None, newPages=None, newGenre=None):
@@ -280,7 +288,7 @@ class eBookReader:
         except Exception as e:
             print(f"An error occurred while loading from file: {e}")
 
-# Added Queue class to create new queues. 
+# Added Queue class to create new queues. (Jose)
 class Queue:
     def __init__(self):
         # Initialize an empty list to store queue items
@@ -324,12 +332,9 @@ class Queue:
         return len(self.items)
     
     def queueItems(self):
-        items = []
-        for item in self.items():
-            items.append(item)
-        return items
+        return self.items
     
-# Added Stack class to create new stacks.
+# Added Stack class to create new stacks. (Jose)
 class Stack:
     def __init__(self):
         # Initialize an empty list to store stack items
@@ -340,7 +345,7 @@ class Stack:
         # Return stack size
         return len(self.items)
 
-    def is_empty(self):
+    def isEmpty(self):
         # Return True if the stack is empty, otherwise False
         if len(self.items) == 0:
             return True
@@ -353,6 +358,19 @@ class Stack:
         return
 
     def pop(self):
+        # Remove and return the top item from the stack if it's not empty
+        # If the stack is empty, return None
+        if len(self.items) == 0:
+            return None
+        else:
+            return self.items.pop()
+        
+    def pushBookmark(self, item):
+        # Add an item to the top of the stack
+        self.items.append(item)
+        return
+
+    def popBookmark(self):
         # Remove and return the top item from the stack if it's not empty
         # If the stack is empty, return None
         if len(self.items) == 0:
@@ -407,7 +425,8 @@ def main():
     # EX for Deleting a book (Amedeo)
     userOne.deleteBook("The Jungle Book")
 
-    # Singular instance of reading list queue
+    # (Jose)
+    # Singular instance of reading list using a queue
     readingList = Queue()
     
     # simulating user actions (queue)
@@ -429,7 +448,40 @@ def main():
     readingList.dequeue() # Little Women is gone
     readingList.dequeue() # The Jungle Book is gone
     '''user wants to know what books he has in his reading list'''
-    readingList.queueItems() # ["The Phantom of the Opera"]S
+    readingList.queueItems() # ["The Phantom of the Opera"]
+
+    # User reading book simulation (Snow Crash)
+    snowCrashBook = Stack()
+    
+    '''User browsing pages forward'''
+    for i in range(20):  # User skimmed 20 pages
+        print(f"User flips to page {i}")
+        snowCrashBook.push(i)
+    '''User flipping pages backward to beginning'''
+    while not snowCrashBook.isEmpty():
+        currentPage = snowCrashBook.pop()
+        print(f"User flips back to page {currentPage}")
+    '''User reads 42 pages''' 
+    for i in range(42):
+        snowCrashBook.push(i)
+    '''User goes back 3 pages'''
+    for i in range(3):
+        currentPage = snowCrashBook.pop()
+        print(f"User flips back to page {currentPage}")
+    '''User bookmarks 1 page behind'''
+    bookmarkCurrentPage = snowCrashBook.pop()
+    snowCrashBook.pushBookmark(bookmarkCurrentPage)
+    '''User resumes to read from bookmark'''
+    currentBookmark = snowCrashBook.popBookmark()
+    '''User reads from bookmark to end of book'''
+    endBook = userOne.getPages("Snow Crash")
+    for i in range(currentBookmark, endBook + 1):
+        print(f"User flips to page {i}")
+        snowCrashBook.push(i)
+    '''User ends book, empty pages loaded, mark as read'''
+    while not snowCrashBook.isEmpty():
+        snowCrashBook.pop()
+    userOne.readPurchasedBook("Snow Crash")
 
 if __name__ == "__main__":
     main()
