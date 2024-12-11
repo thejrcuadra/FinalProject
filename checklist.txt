@@ -1,6 +1,6 @@
-three data structures (linked lists, stacks, queues, dictionaries)
-add (DONE), update, delete, retrieve records (DONE) (methods)
+three data structures (linked lists, stacks (Jose), queues (Jose), dictionaries)
+add (DONE), update (Done, Amedeo), delete (Done, Amedeo), retrieve records (DONE)
 search (DONE)
 sort (DONE)
-recurssion
-error handling
+recurssion (Done, Breeze)
+error handling (Done, Breeze)
