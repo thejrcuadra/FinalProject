@@ -1,3 +1,45 @@
+class Queue:
+    def __init__(self):
+        # Initialize an empty list to store queue items
+        self.items = []
+        return
+
+    def enqueue(self, value):
+        # Add new item to back of queue
+        self.items.append(value)
+        return
+    
+    def dequeue(self):
+        # Remove and return first item of queue
+        if len(self.items) == 0:
+            return None
+        else:
+            return self.items.pop(0)
+        
+    def isEmpty(self):
+        # Returns True if the queue is empty, False if not
+        if len(self.items) == 0:
+            return True
+        else:
+            return False
+        
+    def first(self):
+        # Return the first item of queue without removing
+        if len(self.items) == 0:
+            return None
+        else:
+            return self.items[0]
+        
+    def last(self):
+        # Return the last item of queue without removing
+        if len(self.items) == 0:
+            return None
+        else:
+            return self.items[-1]
+        
+    def queueSize(self):
+        return len(self.items)
+
 class Book:
     # init constructor method to initialize attributes
     def __init__(self, title, author, pages, genre, read = False, purchases = 0):
@@ -210,7 +252,6 @@ class eBookReader:
         self._titlesBought = loadedTitles
         file.close()
         print("File has been successfully loaded.")
-
     
 def main():
     # print() # differentiate betweeen two mains
