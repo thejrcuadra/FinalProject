@@ -280,7 +280,94 @@ class eBookReader:
         except Exception as e:
             print(f"An error occurred while loading from file: {e}")
 
+# Added Queue class to create new queues. 
+class Queue:
+    def __init__(self):
+        # Initialize an empty list to store queue items
+        self.items = []
+        return
+
+    def enqueue(self, value):
+        # Add new item to back of queue
+        self.items.append(value)
+        return
     
+    def dequeue(self):
+        # Remove and return first item of queue
+        if len(self.items) == 0:
+            return None
+        else:
+            return self.items.pop(0)
+        
+    def isEmpty(self):
+        # Returns True if the queue is empty, False if not
+        if len(self.items) == 0:
+            return True
+        else:
+            return False
+        
+    def first(self):
+        # Return the first item of queue without removing
+        if len(self.items) == 0:
+            return None
+        else:
+            return self.items[0]
+        
+    def last(self):
+        # Return the last item of queue without removing
+        if len(self.items) == 0:
+            return None
+        else:
+            return self.items[-1]
+        
+    def queueSize(self):
+        return len(self.items)
+    
+    def queueItems(self):
+        items = []
+        for item in self.items():
+            items.append(item)
+        return items
+    
+# Added Stack class to create new stacks.
+class Stack:
+    def __init__(self):
+        # Initialize an empty list to store stack items
+        self.items = []
+        return
+    
+    def getSize(self):
+        # Return stack size
+        return len(self.items)
+
+    def is_empty(self):
+        # Return True if the stack is empty, otherwise False
+        if len(self.items) == 0:
+            return True
+        else:
+            return False
+       
+    def push(self, item):
+        # Add an item to the top of the stack
+        self.items.append(item)
+        return
+
+    def pop(self):
+        # Remove and return the top item from the stack if it's not empty
+        # If the stack is empty, return None
+        if len(self.items) == 0:
+            return None
+        else:
+            return self.items.pop()
+        
+    def peek(self):
+        # Return the top item without removing it if the stack is not empty
+        # If the stack is empty, return None
+        if len(self.items) == 0:
+            return None
+        else:
+            return self.items[-1]
+  
 def main():
     # print() # differentiate betweeen two mains
 
@@ -319,6 +406,30 @@ def main():
     userOne.updateBook("Mansfield Park", newTitle="Northanger Abbey", newAuthor="Jane Austen")
     # EX for Deleting a book (Amedeo)
     userOne.deleteBook("The Jungle Book")
+
+    # Singular instance of reading list queue
+    readingList = Queue()
+    
+    # simulating user actions (queue)
+    '''user want to know if queue is empty'''
+    readingList.isEmpty() # True
+    '''user is adding books to his reading list'''
+    readingList.enqueue("Snow Crash")
+    readingList.enqueue("Little Women")
+    readingList.enqueue("The Jungle Book")
+    '''user wants to know how big his current reading list is'''
+    readingList.queueSize() # 3
+    '''user has read "Snow Crash" and wants to remove it from queue'''
+    readingList.dequeue()
+    '''user wasnt to know what was the last book he queued'''
+    readingList.last() # The Jungle Book
+    '''user want to add another book to queue'''
+    readingList.enqueue("The Phantom of the Opera")
+    '''user reads 2 books'''
+    readingList.dequeue() # Little Women is gone
+    readingList.dequeue() # The Jungle Book is gone
+    '''user wants to know what books he has in his reading list'''
+    readingList.queueItems() # ["The Phantom of the Opera"]S
 
 if __name__ == "__main__":
     main()
